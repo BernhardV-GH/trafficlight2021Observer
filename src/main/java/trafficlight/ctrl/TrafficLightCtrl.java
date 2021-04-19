@@ -4,27 +4,29 @@ import trafficlight.gui.TrafficLightGui;
 import trafficlight.states.State;
 
 public class TrafficLightCtrl {
-
     private State greenState;
-
     private State redState;
-
     private State yellowState;
-
     private State currentState;
-
     private State previousState;
-
     private final TrafficLightGui gui;
-
     private boolean doRun = true;
 
-    public TrafficLightCtrl() {
+    private static TrafficLightCtrl instance = null;
+    // method and reference for Singleton pattern implementation
+    public static TrafficLightCtrl getInstance() {
+        if (instance == null) {
+            instance = new TrafficLightCtrl();
+        }
+        return instance;
+    }
+
+    private TrafficLightCtrl() {
         super();
         initStates();
         gui = new TrafficLightGui(this);
         gui.setVisible(true);
-        //TODO useful to update the current state
+        currentState.notifyObservers(currentState);
     }
 
     private void initStates() {
@@ -32,7 +34,8 @@ public class TrafficLightCtrl {
             @Override
             public State getNextState() {
                 previousState = currentState;
-                //TODO useful to update the current state and the old one
+                yellowState.notifyObservers(yellowState); // toggles yellow light on
+                notifyObservers(this); // toggles green light off
                 return yellowState;
             }
             @Override
@@ -45,7 +48,8 @@ public class TrafficLightCtrl {
             @Override
             public State getNextState() {
                 previousState = currentState;
-                //TODO useful to update the current state and the old one
+                yellowState.notifyObservers(yellowState);
+                notifyObservers(this);
                 return yellowState;
             }
             @Override
@@ -59,11 +63,13 @@ public class TrafficLightCtrl {
             public State getNextState() {
                 if (previousState.equals(greenState)) {
                     previousState = currentState;
-                    //TODO useful to update the current state and the old one
+                    redState.notifyObservers(redState);
+                    notifyObservers(this);
                     return redState;
                 }else {
                     previousState = currentState;
-                    //TODO useful to update the current state and the old one
+                    greenState.notifyObservers(greenState);
+                    notifyObservers(this);
                     return greenState;
                 }
             }

@@ -1,8 +1,7 @@
 package trafficlight.states;
+import trafficlight.observerpattern.Subject;
 
-//TODO implement a part of the pattern here
-
-public abstract class State {
+public abstract class State extends Subject {
 
     public abstract State getNextState();
 

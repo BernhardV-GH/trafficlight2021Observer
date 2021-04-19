@@ -1,6 +1,4 @@
 package trafficlight.gui;
-
-
 import javax.swing.*;
 import java.awt.*;
 

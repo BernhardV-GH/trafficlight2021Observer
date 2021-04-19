@@ -1,5 +1,4 @@
 package trafficlight.gui;
-
 import trafficlight.ctrl.TrafficLightCtrl;
 
 import javax.swing.*;
@@ -8,17 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TrafficLightGui extends JFrame implements ActionListener {
-
     public static final String ACTION_COMMAND_STOP = "stop";
-
     public static final String NAME_OF_THE_GAME = "Traffic Light";
-
     private JButton buttonStop;
 
     private TrafficLight green = null;
     private TrafficLight yellow = null;
     private TrafficLight red = null;
-
     private TrafficLightCtrl trafficLightCtrl = null;
 
 
@@ -33,6 +28,12 @@ public class TrafficLightGui extends JFrame implements ActionListener {
         //TODO implement a part of the pattern here
         //create the TrafficLight
         //connect subject and observer
+        green = new TrafficLight(Color.green);
+        yellow = new TrafficLight(Color.yellow);
+        red = new TrafficLight(Color.red);
+        ctrl.getGreenState().addObservers(green);
+        ctrl.getYellowState().addObservers(yellow);
+        ctrl.getRedState().addObservers(red);
     }
 
     private void init() {
@@ -54,7 +55,6 @@ public class TrafficLightGui extends JFrame implements ActionListener {
         getContentPane().add(p2);
         pack();
     }
-
 
     public void showErrorMessage(Exception e) {
         JOptionPane pane = new JOptionPane();
